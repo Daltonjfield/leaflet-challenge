@@ -38,9 +38,30 @@ var myMap = L.map("mapid", {
         return (mag*3000)
     }
 
+    d3.json(usgs, function(data) 
+  {
+    createFeatures(data.features)});
 
-  // Grabbing our GeoJSON data..
-  d3.json(link, function(data) {
+    //Define function
+    function createFeatures(data){
+        var earthquakedata =  L.geoJson(data, {
+            
+            // Called on each feature
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup("<h1>" + feature.properties.place + "</h1> <hr> <h2>" + feature.properties.magnitude + "</h2>" + feature.geometry.coordinates[2]);
+                // Style each feature (in this case a neighborhood)
+            style: function(feature) {
+                return {
+                  color: "white",
+                  // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
+                  fillColor: chooseColor(feature.properties.borough),
+                  fillOpacity: 0.5,
+                  weight: 1.5
+                };
+              },
+
+    }
+
     // Creating a geoJSON layer with the retrieved data
     L.geoJson(data, {
       // Style each feature (in this case a neighborhood)
