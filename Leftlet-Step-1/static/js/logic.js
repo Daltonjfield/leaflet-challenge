@@ -5,7 +5,7 @@ var myMap = L.map("mapid", {
   });
   
   // Adding tile layer
-  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
@@ -18,21 +18,19 @@ var myMap = L.map("mapid", {
   var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
   
   // Function that will determine the color of a neighborhood based on the borough it belongs to
-  function chooseColor(borough) {
-    switch (borough) {
-    case "Brooklyn":
-      return "yellow";
-    case "Bronx":
-      return "red";
-    case "Manhattan":
-      return "orange";
-    case "Queens":
-      return "green";
-    case "Staten Island":
-      return "purple";
-    default:
-      return "black";
-    }
+  function chooseColor(depth) {
+    if (depth > 90)
+    return "red";
+    else if (depth > 70)
+    return "orange";
+    else if (depth > 50)
+    return "light orange";
+    else if (depth > 30)
+    return "yellow";
+    else if (depth >10)
+    return "light green";
+    else
+    return "green";
   }
   
   // Grabbing our GeoJSON data..
