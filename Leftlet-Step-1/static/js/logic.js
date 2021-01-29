@@ -76,7 +76,27 @@
         id: "dark-v10",
         accessToken: API_KEY
       });
-    
+      
+      //Legend
+      var legend = L.control({position: 'bottomright'});
+
+      legend.onAdd = function (map) {
+      
+          var infodiv = L.DomUtil.create('div', 'info legend'),
+              depth = ["-10-10", "10-30", "30-50", "50-70", "70-90", "90+"],
+              colors = ["green","lime","yellow","orange","pink","red"];
+      
+          // loop through our density intervals and generate a label with a colored square for each interval
+          for (var i = 0; i < depth.length; i++) {
+              infodiv.innerHTML +=
+                  '<i style="background:' + (colors[i]) + '"></i> ' +
+                  depth[i] + "<br>" + "<br>" ; 
+          }
+      
+          return infodiv;
+      };
+      
+      
       // Define a baseMaps object to hold our base layers
       var baseMaps = {
         "Street Map": streetmap,
@@ -93,4 +113,6 @@
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
+    legend.addTo(myMap);
     }
+
